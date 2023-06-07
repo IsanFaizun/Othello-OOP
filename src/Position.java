@@ -7,5 +7,8 @@ public class Position {
         this.y = y;
     }
 
-    public void add()
+    public void add(Position otherPost){
+        this.x += otherPost.x;
+
+    }
 }
