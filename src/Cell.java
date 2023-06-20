@@ -28,7 +28,7 @@ public class Cell extends Board {
 
     public void mark(Graphics g) {
         if(highlight) {
-            g.setColor(new Color(255,0,0,203));
+            g.setColor(new Color(255,0,0,100));
             g.fillRect(post.x, post.y, width, height);
         }
 

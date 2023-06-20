@@ -1,5 +1,3 @@
-import java.awt.*;
-
 public class Board {
     protected Position post;
     protected int width;
