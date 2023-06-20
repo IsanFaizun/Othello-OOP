@@ -1,10 +1,12 @@
 import java.awt.*;
 
 public class Board {
-    private int width;
-    private int height;
+    protected Position post;
+    protected int width;
+    protected int height;
 
-    public Board(int width, int height){
+    public Board(Position post, int width, int height){
+        this.post = post;
         this.width = width;
         this.height = height;
     }
