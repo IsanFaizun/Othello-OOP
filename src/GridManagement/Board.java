@@ -1,3 +1,6 @@
+package GridManagement;
+
+import GUI.*;
 public class Board {
     protected Position post;
     protected int width;

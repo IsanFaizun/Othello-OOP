@@ -1,9 +1,12 @@
+package GUI;
+
+import GridManagement.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
+import VSComAuto.*;
 public class GamePanel extends JPanel implements MouseListener{
     public enum GameState {WTurn, BTurn, Draw, WWins, BWins}
     private GameState gameState;

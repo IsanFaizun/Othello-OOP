@@ -1,3 +1,6 @@
+package GridManagement;
+
+import GUI.*;
 import java.awt.*;
 
 public class Cell extends Board {

@@ -1,8 +1,12 @@
+package GridManagement;
+
+import GUI.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class Grid extends Board{
+public class Grid extends Board {
     private Cell[][] grid;
     private int moves;
     private List<Position> validMoves;

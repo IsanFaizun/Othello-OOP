@@ -1,7 +1,12 @@
+package VSComAuto;
+
+import GUI.Position;
+import GridManagement.Grid;
+
 import java.util.Collections;
 
 public class VSCom {
-        private Grid Grid;
+        private GridManagement.Grid Grid;
 
     public VSCom(Grid Grid) {
         this.Grid = Grid;
