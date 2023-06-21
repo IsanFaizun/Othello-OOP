@@ -8,6 +8,7 @@ public class GamePanel extends JPanel implements MouseListener{
     public enum GameState {WTurn, BTurn, Draw, WWins, BWins}
     private GameState gameState;
     private String gameStateStr;
+    private VSCom vsCom;
     private static final int PANEL_HEIGHT = 600;
     private static final int PANEL_WIDTH = 500;
     private Grid gameArea;
@@ -17,6 +18,7 @@ public class GamePanel extends JPanel implements MouseListener{
 
         gameArea = new Grid(new Position(0,0), PANEL_WIDTH, PANEL_HEIGHT-100, 8, 8);
         setGameState(GameState.BTurn);
+        chooseType();
         addMouseListener(this);
     }
 
@@ -84,9 +86,9 @@ public class GamePanel extends JPanel implements MouseListener{
     private void endGame(boolean isEnd){
         int result = gameArea.getWinner(isEnd);
         if(result == 1){
-            setGameState(GameState.WWins);
-        } else if (result == 2) {
             setGameState(GameState.BWins);
+        } else if (result == 2) {
+            setGameState(GameState.WWins);
         } else if (result == 3) {
             setGameState(GameState.Draw);
         }
@@ -96,6 +98,11 @@ public class GamePanel extends JPanel implements MouseListener{
             Position gridPosition = gameArea.mouseToGridPost(new Position(e.getX(), e.getY()));
             playTurn(gridPosition);
             endGame(true);
+
+            while(gameState == GameState.WTurn && vsCom != null) {
+                playTurn(vsCom.chooseMove());
+                endGame(true);
+            }
         }
 
         repaint();
@@ -105,6 +112,23 @@ public class GamePanel extends JPanel implements MouseListener{
         g.setFont(new Font("Helvetica", Font.BOLD, 35));
         int strWidth = g.getFontMetrics().stringWidth(gameStateStr);
         g.drawString(gameStateStr, PANEL_WIDTH/2-strWidth/2, PANEL_HEIGHT-40);
+    }
+
+    private void chooseType() {
+        String[] options = new String[] {"vs Player", "vs COM"};
+        String message = "Select the game mode you would like to use.";
+        int difficultyChoice = JOptionPane.showOptionDialog(null, message,
+                "Choose how to play.",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                null, options, options[0]);
+        switch(difficultyChoice) {
+            case 0: // Remove the AI so it becomes PvP
+                vsCom = null;
+                break;
+            case 1:
+                vsCom = new VSCom(gameArea);
+                break;
+        }
     }
 
     @Override

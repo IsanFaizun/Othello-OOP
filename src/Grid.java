@@ -7,20 +7,30 @@ public class Grid extends Board{
     private int moves;
     private List<Position> validMoves;
 
-    public Grid (Position post, int width, int height, int gridWidth, int gridHeight) {
+    public Grid(Position post, int width, int height, int gridWidth, int gridHeight) {
         super(post, width, height);
         grid = new Cell[gridWidth][gridHeight];
-        int cellWidth = (width-post.x)/gridWidth;
-        int cellHeight = (height-post.x)/gridHeight;
-        for(int x = 0; x < gridWidth; x++){
-            for(int y = 0; y < gridHeight; y++){
+        int cellWidth = (width - post.x) / gridWidth;
+        int cellHeight = (height - post.y) / gridHeight;
+
+        for (int x = 0; x < gridWidth; x++) {
+            for (int y = 0; y < gridHeight; y++) {
                 grid[x][y] = new Cell(new Position(post.x + cellWidth * x, post.y + cellHeight * y), cellWidth, cellHeight);
             }
         }
+//        Inisiasi disc tengah
+        int midX = gridWidth / 2 - 1;
+        int midY = gridHeight / 2 - 1;
+        grid[midX][midY].setDisc(1);
+        grid[midX + 1][midY].setDisc(2);
+        grid[midX][midY + 1].setDisc(2);
+        grid[midX + 1][midY + 1].setDisc(1);
+
         moves = 0;
         validMoves = new ArrayList<>();
         updateValidMoves(1);
     }
+
 
     public void reset(){
         for(int x = 0; x < grid.length; x++) {
@@ -82,11 +92,12 @@ public class Grid extends Board{
 
     private void drawGrid(Graphics g) {
         g.setColor(Color.BLACK);
+//        Vertical Line
         int y2 = post.y+height;
         int y1 = post.y;
         for(int x = 0; x < grid.length+1; x++)
             g.drawLine(post.x+x * grid[0][0].width, y1, post.x+x * grid[0][0].width, y2);
-
+//        Horizontal Line
         int x2 = post.x+width;
         int x1 = post.x;
         for(int y = 0; y < grid[0].length+1; y++)
@@ -99,25 +110,14 @@ public class Grid extends Board{
         }
         validMoves.clear();
 
-        if (moves < 4) {
-            int midX = grid.length/2-1;
-            int midY = grid[0].length/2-1;
-            for (int x = midX; x < midY+ 2; x++) {
-                for (int y = midY; y < midY+2; y++) {
-                    if (grid[x][y].getDisc() == 0) {
-                        validMoves.add(new Position(x, y));
-                    }
-                }
-            }
-        } else {
-            for (int x = 0; x < grid.length; x++) {
-                for (int y = 0; y < grid[0].length; y++) {
-                    if (grid[x][y].getDisc() == 0 && getChangedPositions(new Position(x, y), playerID).size() > 0) {
-                        validMoves.add(new Position(x, y));
-                    }
+        for (int x = 0; x < grid.length; x++) {
+            for (int y = 0; y < grid[0].length; y++) {
+                if (grid[x][y].getDisc() == 0 && getChangedPositions(new Position(x, y), playerID).size() > 0) {
+                    validMoves.add(new Position(x, y));
                 }
             }
         }
+
         for (Position validMove:validMoves){
             grid[validMove.x][validMove.y].setHighlight(true);
         }
@@ -128,6 +128,10 @@ public class Grid extends Board{
         result.addAll(getChangedPositionsInDirect(position, playerID, Position.LEFT));
         result.addAll(getChangedPositionsInDirect(position, playerID, Position.UP));
         result.addAll(getChangedPositionsInDirect(position, playerID, Position.RIGHT));
+        result.addAll(getChangedPositionsInDirect(position, playerID, Position.DOWN_LEFT));
+        result.addAll(getChangedPositionsInDirect(position, playerID, Position.DOWN_RIGHT));
+        result.addAll(getChangedPositionsInDirect(position, playerID, Position.UP_LEFT));
+        result.addAll(getChangedPositionsInDirect(position, playerID, Position.UP_RIGHT));
         return result;
     }
     private List<Position> getChangedPositionsInDirect(Position position, int playerID, Position direction){
