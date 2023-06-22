@@ -124,15 +124,20 @@ public class GamePanel extends JPanel implements MouseListener{
                 "Choose how to play.",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
                 null, options, options[0]);
-        switch(difficultyChoice) {
-            case 0: // Remove the AI so it becomes PvP
-                vsCom = null;
-                break;
-            case 1:
-                vsCom = new VSCom(gameArea);
-                break;
+        if (difficultyChoice == JOptionPane.CLOSED_OPTION) {
+            System.exit(0);
+        } else {
+            switch(difficultyChoice) {
+                case 0: // Remove the AI so it becomes PvP
+                    vsCom = null;
+                    break;
+                case 1:
+                    vsCom = new VSCom(gameArea);
+                    break;
+            }
         }
     }
+
 
     @Override
     public void mouseClicked(MouseEvent e) {
