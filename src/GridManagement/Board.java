@@ -1,7 +1,7 @@
 package GridManagement;
 
 import GUI.*;
-public class Board {
+public abstract class Board {
     protected Position post;
     protected int width;
     protected int height;
@@ -11,4 +11,6 @@ public class Board {
         this.width = width;
         this.height = height;
     }
+
+    public abstract void reset();
 }

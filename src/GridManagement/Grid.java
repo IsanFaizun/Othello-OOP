@@ -85,11 +85,11 @@ public class Grid extends Board {
         else return counts[1] > counts[2] ? 1 : 2;
     }
 
-    public void paint(Graphics g){
+    public void tint(Graphics g){
         drawGrid(g);
         for(int x = 0; x < grid.length; x++) {
             for (int y = 0; y < grid[0].length; y++) {
-                grid[x][y].mark(g);
+                grid[x][y].tint(g);
             }
         }
     }
@@ -106,6 +106,19 @@ public class Grid extends Board {
         int x1 = post.x;
         for(int y = 0; y < grid[0].length+1; y++)
             g.drawLine(x1, post.y+y * grid[0][0].height, x2, post.y+y * grid[0][0].height);
+    }
+
+    public int[] countDiscs() {
+        int[] counts = new int[3]; // 0 = unused, 1 = black, 2 = white
+
+        for (int x = 0; x < grid.length; x++) {
+            for (int y = 0; y < grid[0].length; y++) {
+                int disc = grid[x][y].getDisc();
+                counts[disc]++;
+            }
+        }
+
+        return counts;
     }
 
     public void updateValidMoves(int playerID){

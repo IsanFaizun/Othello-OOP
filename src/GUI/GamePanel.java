@@ -19,7 +19,7 @@ public class GamePanel extends JPanel implements MouseListener{
         setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setBackground(new Color(0x00AB5B));
 
-        gameArea = new Grid(new Position(0,0), PANEL_WIDTH, PANEL_HEIGHT-100, 8, 8);
+        gameArea = new Grid(new Position(0,100), PANEL_WIDTH, PANEL_HEIGHT, 8, 8);
         setGameState(GameState.BTurn);
         chooseType();
         addMouseListener(this);
@@ -27,9 +27,20 @@ public class GamePanel extends JPanel implements MouseListener{
 
     public void paint(Graphics g){
         super.paint(g);
-        gameArea.paint(g);
+        gameArea.tint(g);
         drawGameState(g);
+        drawDiscCounts(g);
     }
+
+    private void drawDiscCounts(Graphics g) {
+        int[] counts = gameArea.countDiscs();
+
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Helvetica", Font.BOLD, 20));
+        g.drawString("Black: " + counts[1], 10, 40);
+        g.drawString("White: " + counts[2], 10, 60);
+    }
+
     public void restart() {
         gameArea.reset();
         setGameState(GameState.BTurn);
@@ -112,9 +123,9 @@ public class GamePanel extends JPanel implements MouseListener{
     }
     private void drawGameState(Graphics g) {
         g.setColor(Color.BLACK);
-        g.setFont(new Font("Helvetica", Font.BOLD, 35));
+        g.setFont(new Font("Helvetica", Font.BOLD, 20));
         int strWidth = g.getFontMetrics().stringWidth(gameStateStr);
-        g.drawString(gameStateStr, PANEL_WIDTH/2-strWidth/2, PANEL_HEIGHT-40);
+        g.drawString(gameStateStr, PANEL_WIDTH/2-strWidth/2, PANEL_HEIGHT-530);
     }
 
     private void chooseType() {
@@ -128,7 +139,7 @@ public class GamePanel extends JPanel implements MouseListener{
             System.exit(0);
         } else {
             switch(difficultyChoice) {
-                case 0: // Remove the AI so it becomes PvP
+                case 0: // PVP
                     vsCom = null;
                     break;
                 case 1:

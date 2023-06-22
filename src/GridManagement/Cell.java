@@ -3,7 +3,7 @@ package GridManagement;
 import GUI.*;
 import java.awt.*;
 
-public class Cell extends Board {
+public class Cell extends Board implements IColor{
     private int disc;
     private boolean highlight;
 
@@ -29,7 +29,7 @@ public class Cell extends Board {
         this.highlight = highlight;
     }
 
-    public void mark(Graphics g) {
+    public void tint(Graphics g) {
         if(highlight) {
             g.setColor(new Color(255,0,0,100));
             g.fillRect(post.x, post.y, width, height);
