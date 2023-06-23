@@ -46,14 +46,6 @@ public class GamePanel extends JPanel implements MouseListener{
         setGameState(GameState.BTurn);
     }
 
-    public void handleInput(int keyCode) {
-        if(keyCode == KeyEvent.VK_ESCAPE) {
-            System.exit(0);
-        } else if(keyCode == KeyEvent.VK_R) {
-            restart();
-            repaint();
-        }
-    }
     private void playTurn(Position gridPosition) {
         if(!gameArea.isValidMove(gridPosition)) {
             return;
